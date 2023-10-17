@@ -4,14 +4,11 @@ FROM node:14-alpine
 # Set the working directory to /app
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+# Copy the rest of the application code to the working directory
+COPY . .
 
 # Install any needed dependencies
 RUN npm install
-
-# Copy the rest of the application code to the working directory
-COPY . .
 
 # Expose the port that the API will listen on
 EXPOSE 3000
