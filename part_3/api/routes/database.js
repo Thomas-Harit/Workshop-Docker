@@ -2,7 +2,7 @@ const mysql = require('mysql2');
 
 const pool = mysql.createPool({
   connectionLimit: 10, // Maximum number of connections in the pool
-  host: 'db',
+  host: 'localhost',
   user: 'root',
   password: 'my-secret-pw',
   database: 'my_database',
@@ -15,7 +15,7 @@ const pool = mysql.createPool({
 const verifyConnection = () => {
   pool.getConnection((err) => {
     if (err) {
-      console.log("Could not connect to the database. Error: " + err + " retrying in 5 seconds");
+      console.log("Could not connect to the database. Maybe try configuring the Dockerfile in /part_2/database. :clown:");
       setTimeout(verifyConnection, 5000);
     } else {
       console.log("Connected to the database!");

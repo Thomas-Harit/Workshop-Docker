@@ -15,7 +15,7 @@ const pool = mysql.createPool({
 const verifyConnection = () => {
   pool.getConnection((err) => {
     if (err) {
-      console.log("Could not connect to the database. Error: " + err);
+      console.log("Could not connect to the database. Maybe try configuring the Dockerfile in /part_2/database. :clown:");
       setTimeout(verifyConnection, 5000);
     } else {
       console.log("Connected to the database!");

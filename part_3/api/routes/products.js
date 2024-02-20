@@ -4,6 +4,45 @@ const db = require('./database');
 
 const app = express();
 
+/**
+ * @swagger
+ * tags:
+ *   - name: Products
+ *     description: Product management and retrieval
+ */
+
+/**
+ * @swagger
+ * /products:
+ *   get:
+ *     summary: Returns a list of products
+ *     tags: [Products]
+ *     responses:
+ *       200:
+ *         description: The list of the products
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     description: The auto-generated id of the product.
+ *                   name:
+ *                     type: string
+ *                     description: The name of the product.
+ *                   price:
+ *                     type: number
+ *                     format: float
+ *                     description: The price of the product.
+ *                 example:
+ *                   id: 1
+ *                   name: Example Product Name
+ *                   price: 9.99
+ */
+
 app.get('/products', (_, res) => {
     db.query("SELECT * FROM products", (error, results) => {
         if (error) throw error;
@@ -12,6 +51,22 @@ app.get('/products', (_, res) => {
     });
 });
 
+/**
+ * @swagger
+ * /products:
+ *   post:
+ *     summary: Creates a new product
+ *     tags: [Products]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Product'
+ *     responses:
+ *       200:
+ *         description: The product was successfully created
+ */
 app.post('/products', (req, res) => {
     const { name, price } = req.body;
 
@@ -22,6 +77,29 @@ app.post('/products', (req, res) => {
     });
 });
 
+/**
+ * @swagger
+ * /products/{id}:
+ *   put:
+ *     summary: Updates a product by the id
+ *     tags: [Products]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The id of the product to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Product'
+ *     responses:
+ *       200:
+ *         description: The product was updated successfully
+ */
 app.put('/products/:id', (req, res) => {
     const { name, price } = req.body;
     const { id } = req.params;
@@ -33,6 +111,23 @@ app.put('/products/:id', (req, res) => {
     });
 });
 
+/**
+ * @swagger
+ * /products/{id}:
+ *   delete:
+ *     summary: Removes the product with the specified ID
+ *     tags: [Products]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The id of the product to delete
+ *     responses:
+ *       200:
+ *         description: The product was deleted successfully
+ */
 app.delete('/products/:id', (req, res) => {
     const { id } = req.params;
 
